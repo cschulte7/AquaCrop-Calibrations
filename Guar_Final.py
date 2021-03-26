@@ -28,7 +28,13 @@ pathprefix='/home/ecoslacker/Documents/WINDS_Data/'
 db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevzppe.us-west-1.rds.amazonaws.com:3306/winds_test')
 Guar_data = pd.read_sql('SELECT * from Aquacrop_crop_table',con=db)  #Reads all data from mysql db
 
-a = Guar_data
+class plant_data:
+    def __init__(self, Guar_data):
+        self.Crop_type = Guar_data['Crop Type']                             #The long random identifier that represents the planting, for example, 9a649ac3a4353ffe6d67fdad0c6bf3a9
+
+P = plant_data(Guar_data)
+
+print('Crop type', P.Crop_type)
 # Reads in the weather data
 weather = pd.read_csv('GuarWeather_Clovis_2018.csv') 
 # Prepares the weather data that is in the csv to the format that the aquacrop code needs it in (ten spaces between each value)
