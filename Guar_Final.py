@@ -16,6 +16,18 @@ import numpy as np
 import pandas as pd
 from aquacrop.core import *
 from aquacrop.classes_Guar import *
+import pymysql
+pymysql.install_as_MySQLdb()
+from sqlalchemy import create_engine
+#import WINDSfunctionsandclasses13.py
+
+#exec(open("WINDSfunctionsandclasses_July25.py").read())
+pathprefix='/home/ecoslacker/Documents/WINDS_Data/'
+# sys.path.append(pathprefix)
+
+db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevzppe.us-west-1.rds.amazonaws.com:3306/winds_test')
+Guar_data = pd.read_sql('SELECT * from Aquacrop_crop_table',con=db)  #Reads all data from mysql db
+
 
 # Reads in the weather data
 weather = pd.read_csv('GuarWeather_Clovis_2018.csv') 
