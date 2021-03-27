@@ -71,6 +71,25 @@ class plant_data:
         self.WP = float(Guar_data['WP']); 
         self.WPy = float(Guar_data['Wpy']);
         self.fsink = float(Guar_data['fsink']);
+        self.HI0 = float(Guar_data['HI0']);
+        self.dHI_pre = float(Guar_data['dHI_pre']);
+        self.a_HI = float(Guar_data['a_HI']); 
+        self.b_HI = float(Guar_data['b_HI']); 
+        self.dHI0 = float(Guar_data['dHI0']);
+        self.Determinant = float(Guar_data['Determinant']); 
+        self.exc = float(Guar_data['exc']); 
+        self.p_up1 = float(Guar_data['p_up1']); 
+        self.p_up2 = float(Guar_data['p_up2']); 
+        self.p_up3 = float(Guar_data['p_up3']); 
+        self.p_up4 = float(Guar_data['p_up4']);
+        self.p_lo1 = float(Guar_data['p_lo1']); 
+        self.p_lo2 = float(Guar_data['p_lo2']); 
+        self.p_lo3 = float(Guar_data['p_lo3']); 
+        self.p_lo4 = float(Guar_data['p_lo4']); 
+        self.fshape_w1 = float(Guar_data['fshape_w1']);
+        self.fshape_w2 = float(Guar_data['fshape_w2']);
+        self.fshape_w3 = float(Guar_data['fshape_w3']);
+        self.fshape_w4 = float(Guar_data['fshape_w4']);
 
 
 P = plant_data(Guar_data)

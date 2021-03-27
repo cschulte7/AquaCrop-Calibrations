@@ -569,7 +569,7 @@ class CropClass:
 
 
 
-    def __init__(self,c_name,PlantingDate,HarvestDate=None,**kwargs):
+    def __init__(self,c_name,P, PlantingDate,HarvestDate=None, **kwargs):
 
         self.Name = ''
 
@@ -593,46 +593,72 @@ class CropClass:
         if c_name == 'GuarGDD': 
 
             self.Name = 'GuarGDD'
-            self.CropType= 3; self.PlantMethod= 1; self.CalendarType= 2
-            self.SwitchGDD= 0;
+            self.CropType= P.Crop_type; 
+            self.PlantMethod= P.Plant_method; 
+            self.CalendarType= P.Calendar_type
+            self.SwitchGDD= P.SwitchGDD;
             self.PlantingDate= PlantingDate # Planting Date (mm/dd)
             self.HarvestDate= HarvestDate # Latest Harvest Date (mm/dd)
 
-            self.Emergence = 78.93; self.MaxRooting = 644.40; self.Senescence = 798.27;  self.Maturity = 814.05;
-            self.HIstart = 330.355; self.Flowering = 540; self.YldForm = 648; self.GDDmethod = 1; 
-            self.Tbase = 14.2; self.Tupp = 48.2; self.PolHeatStress = 0; self.Tmax_up = 37; self.Tmax_lo = 50; 
-            self.PolColdStress = 0; self.Tmin_up = 15; self.Tmin_lo = 5; self.TrColdStress = 1;
+            self.Emergence = P.Emergence; 
+            self.MaxRooting = P.MaxRooting; 
+            self.Senescence = P.Senescence;  
+            self.Maturity = P.Maturity;
+            self.HIstart = P.HIstart; 
+            self.Flowering = P.Flowering; 
+            self.YldForm = P.YldForm; 
+            self.GDDmethod = P.GDDmethod; 
+            self.Tbase = P.Tbase; 
+            self.Tupp = P.Tupp; 
+            self.PolHeatStress = P.PolHeatStress; 
+            self.Tmax_up = P.Tmax_up; 
+            self.Tmax_lo = P.Tmax_lo; 
+            self.PolColdStress = P.PolColdStress; 
+            self.Tmin_up = P.Tmin_up; 
+            self.Tmin_lo = P.Tmin_lo; 
+            self.TrColdStress = P.TrColdStress;
         
-            self.GDD_up = 12;
-            self.GDD_lo = 0; self.Zmin = 0.3; self.Zmax = 1.5;
-            self.fshape_r = 1.5; 
-            self.SxTopQ = 0.0480; 
-            self.SxBotQ = 0.012;
+            self.GDD_up = P.GDD_up;
+            self.GDD_lo = P.GDD_lo; 
+            self.Zmin = P.Zmin; 
+            self.Zmax = P.Zmax;
+            self.fshape_r = P.fshape_r; 
+            self.SxTopQ = P.SxTopQ; 
+            self.SxBotQ = P.SxBotQ;
+            self.SeedSize = P.SeedSize; 
+            self.PlantPop = P.PlantPop # Hadiqa
             
-            self.SeedSize = 4.32; self.PlantPop = 240_000 # Hadiqa
+            self.CCx = P.CCx;
+            self.CDC = P.CDC; 
+            self.CGC = P.CGC; 
+            self.Kcb = P.Kcb;
+            self.fage = P.fage; 
+            self.WP = P.WP; 
+            self.WPy = P.WPy;
+            self.fsink = P.fsink;
             
-            self.CCx = 0.96;
-            self.CDC = 0.004; 
-            self.CGC = 0.005; 
-            self.Kcb = 1.15;
-            self.fage = 0.1; 
-            self.WP = 15; 
-            self.WPy = 100;
-            self.fsink = 0.3;
+            self.HI0 = P.HI0; 
             
-            self.HI0 = 0.29; 
+            self.dHI_pre = P.dHI_pre;
+            self.a_HI = P.a_HI; 
+            self.b_HI = P.b_HI; 
+            self.dHI0 = P.dHI0;
             
-            self.dHI_pre = 5;
-            self.a_HI = 4; self.b_HI = 10; 
-            self.dHI0 = 15;
-            
-            self.Determinant = 0; self.exc = 0; self.p_up1 = 0.35; self.p_up2 = 0.70; self.p_up3 = 0.8; self.p_up4 = 0.95;
-            self.p_lo1 = 0.7; self.p_lo2 = 1; self.p_lo3 = 1; self.p_lo4 = 1; 
+            self.Determinant = P.Determinant; 
+            self.exc = P.exc; 
+            self.p_up1 = P.p_up1; 
+            self.p_up2 = P.p_up2; 
+            self.p_up3 = P.p_up3; 
+            self.p_up4 = P.p_up4;
+            self.p_lo1 = P.p_lo1; 
+            self.p_lo2 = P.p_lo2; 
+            self.p_lo3 = P.p_lo3; 
+            self.p_lo4 = P.p_lo4; 
 
-            self.fshape_w1 = 2.9;
-            self.fshape_w2 = 6;
-            self.fshape_w3 = 2.7;
-            self.fshape_w4 = 1;
+            self.fshape_w1 = P.fshape_w1;
+            self.fshape_w2 = P.fshape_w2;
+            self.fshape_w3 = P.fshape_w3;
+            self.fshape_w4 = P.fshape_w4;
             
         elif c_name == 'Maize':
 
