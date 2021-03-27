@@ -28,6 +28,7 @@ pathprefix='/home/ecoslacker/Documents/WINDS_Data/'
 db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevzppe.us-west-1.rds.amazonaws.com:3306/winds_test')
 Guar_data = pd.read_sql('SELECT * from Aquacrop_crop_table',con=db)  #Reads all data from mysql db
 
+#test
 class plant_data:
     def __init__(self, Guar_data):
         self.Crop_name = Guar_data['Crop Name']
