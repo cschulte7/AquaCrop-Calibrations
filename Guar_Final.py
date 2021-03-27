@@ -45,9 +45,15 @@ class plant_data:
         self.Flowering = float(Guar_data['Flowering'])                             
         self.YldForm = float(Guar_data['Yld Form'])                             
         self.GDDmethod = int(Guar_data['GDD Method'])                             
-        # self.Crop_type = Guar_data['Crop Type']                             
-        # self.Crop_type = Guar_data['Crop Type']                             
-
+        self.Tbase = float(Guar_data['Tbase']); 
+        self.Tupp =float(Guar_data['Tupp']); 
+        self.PolHeatStress = int(Guar_data['PolHeatStress']); 
+        self.Tmax_up = int(Guar_data['Tmax_up']); 
+        self.Tmax_lo = int(Guar_data['Tmax_lo']); 
+        self.PolColdStress = int(Guar_data['PolColdStress']); 
+        self.Tmin_up = int(Guar_data['Tmin_up']); 
+        self.Tmin_lo = int(Guar_data['Tmin_lo']); 
+        self.TrColdStress = int(Guar_data['TrColdStress']);
 P = plant_data(Guar_data)
 
 print('Crop type', P.Crop_type)
