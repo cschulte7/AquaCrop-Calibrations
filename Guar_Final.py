@@ -54,6 +54,25 @@ class plant_data:
         self.Tmin_up = int(Guar_data['Tmin_up']); 
         self.Tmin_lo = int(Guar_data['Tmin_lo']); 
         self.TrColdStress = int(Guar_data['TrColdStress']);
+        self.GDD_up = float(Guar_data['GDD_up']);
+        self.GDD_lo = float(Guar_data['GDD_lo']);
+        self.Zmin = float(Guar_data['Zmin']); 
+        self.Zmax = float(Guar_data['Zmax']);
+        self.fshape_r = float(Guar_data['fshape_r']); 
+        self.SxTopQ = float(Guar_data['SxTopQ']);
+        self.SxBotQ = float(Guar_data['SxBotQ']);
+        self.SeedSize = float(Guar_data['SeedSize']); 
+        self.PlantPop = float(Guar_data['PlantPop']); 
+        self.CCx = float(Guar_data['CCx']);
+        self.CDC = float(Guar_data['CDC']); 
+        self.CGC = float(Guar_data['CGC']); 
+        self.Kcb = float(Guar_data['Kcb']);
+        self.fage = float(Guar_data['fage']); 
+        self.WP = float(Guar_data['WP']); 
+        self.WPy = float(Guar_data['Wpy']);
+        self.fsink = float(Guar_data['fsink']);
+
+
 P = plant_data(Guar_data)
 
 print('Crop type', P.Crop_type)
