@@ -660,6 +660,32 @@ class CropClass:
             self.fshape_w3 = P.fshape_w3;
             self.fshape_w4 = P.fshape_w4;
             
+            self.CC0 = P.CC0;
+
+            self.HIGC = P.HIGC;
+            self.tLinSwitch = P.tLinSwitch;
+            self.dHILinear = P.dHILinear;
+    
+            self.fCO2 = P.fCO2;
+    
+            self.FloweringCD = P.FloweringCD;
+            self.FloweringEnd = P.FloweringEnd;
+            
+            self.fshape_b = P.fshape_b; # Shape factor describing the reduction in biomass production for insufficient growing degree days
+            self.PctZmin = P.PctZmin; # Initial percentage of minimum effective rooting depth
+            self.fshape_ex = P.fshape_ex; # Shape factor describing the effects of water stress on root expansion
+            self.ETadj = P.ETadj; # Adjustment to water stress thresholds depending on daily ET0 (0 = No, 1 = Yes)
+            self.Aer = P.Aer; # Vol (%) below saturation at which stress begins to occur due to deficient aeration
+            self.LagAer = P.LagAer; # Number of days lag before aeration stress affects crop growth
+            self.beta = P.beta; # Reduction (%) to p_lo3 when early canopy senescence is triggered
+            self.a_Tr = P.a_Tr; # Exponent parameter for adjustment of Kcx once senescence is triggered
+            self.GermThr = P.GermThr; # Proportion of total water storage needed for crop to germinate
+            self.CCmin = P.CCmin; # Minimum canopy size below which yield formation cannot occur
+            #self.MaxFlowPct = P.MaxFlowPct; # Proportion of total flowering time (%) at which peak flowering occurs
+            self.HIini = P.HIini; # Initial harvest index
+            self.bsted = P.bsted; # WP co2 adjustment parameter given by Steduto et al. 2007
+            self.bface = P.bface; # WP co2 adjustment parameter given by FACE experiments
+            
         elif c_name == 'Maize':
 
             self.Name = 'Maize'

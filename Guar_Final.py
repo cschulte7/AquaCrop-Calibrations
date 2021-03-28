@@ -91,7 +91,28 @@ class plant_data:
         self.fshape_w2 = float(Guar_data['fshape_w2']);
         self.fshape_w3 = float(Guar_data['fshape_w3']);
         self.fshape_w4 = float(Guar_data['fshape_w4']);
-
+        self.CC0 = float(Guar_data['CC0']);
+        self.HIGC = float(Guar_data['HIGC']);
+        self.tLinSwitch = float(Guar_data['tLinSwitch']);
+        self.dHILinear = float(Guar_data['dHILinear']);
+        self.fCO2 = float(Guar_data['fCO2']);
+        self.FloweringCD = float(Guar_data['FloweringCD']);
+        self.FloweringEnd = float(Guar_data['FloweringEnd']);
+        self.fshape_b = float(Guar_data['fshape_b']); # Shape factor describing the reduction in biomass production for insufficient growing degree days
+        self.PctZmin = int(Guar_data['PctZmin']); # Initial percentage of minimum effective rooting depth
+        self.fshape_ex = int(Guar_data['fshape_ex']); # Shape factor describing the effects of water stress on root expansion
+        self.ETadj = int(Guar_data['ETadj']); # Adjustment to water stress thresholds depending on daily ET0 (0 = No, 1 = Yes)
+        self.Aer = int(Guar_data['Aer']); # Vol (%) below saturation at which stress begins to occur due to deficient aeration
+        self.LagAer = int(Guar_data['LagAer']); # Number of days lag before aeration stress affects crop growth
+        self.beta = int(Guar_data['beta']); # Reduction (%) to p_lo3 when early canopy senescence is triggered
+        self.a_Tr = int(Guar_data['a_Tr']); # Exponent parameter for adjustment of Kcx once senescence is triggered
+        self.GermThr = int(Guar_data['GermThr']); # Proportion of total water storage needed for crop to germinate
+        self.CCmin = float(Guar_data['CCmin']); # Minimum canopy size below which yield formation cannot occur
+        self.MaxFlowPct = str(Guar_data['MaxFlowPct']); # Proportion of total flowering time (%) at which peak flowering occurs
+        self.HIini = float(Guar_data['HIini']); # Initial harvest index
+        self.bsted = float(Guar_data['bsted']); # WP co2 adjustment parameter given by Steduto et al. 2007
+        self.bface = float(Guar_data['bface']); # WP co2 adjustment parameter given by FACE experiments
+            
 
 P = plant_data(Guar_data)
 
@@ -105,7 +126,7 @@ wdf = prepare_weather('GuarWeather_Clovis_2018.txt')
 # Grabs the soil class from the classes.py file
 soil = SoilClass('ClayLoamGuar2018') 
 # Prepares the crop class with the name of the crop, planting date, and harvest date
-crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16') 
+crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16')
 # Initialize water content to be field capacity 
 InitWC = InitWCClass(value=['FC']) 
 # The model is run using SimStartTime, SimEndTime, weather data, soil, crop, initial water content
