@@ -113,8 +113,8 @@ class plant_data:
         self.bsted = float(Guar_data['bsted']); # WP co2 adjustment parameter given by Steduto et al. 2007
         self.bface = float(Guar_data['bface']); # WP co2 adjustment parameter given by FACE experiments
             
-
-P = plant_data(Guar_data)
+Guar_data_in = Guar_data.loc[(Guar_data['User']=='Pete') & (Guar_data['Crop Name']== 'Guar')]
+P = plant_data(Guar_data_in)
 
 print('Crop type', P.Crop_type)
 # Reads in the weather data
