@@ -140,11 +140,11 @@ class SoilClass:
     `Comp` : `pandas.DataFrame` : holds soil compartment information
     A number of float attributes specified in the initialisation of the class
         '''
-    def __init__(self,soilType,dz=[0.1]*12,
+    def __init__(self,soilType, F, S, dz=[0.1]*12,
                  AdjREW= 1,REW= 9.0,CalcCN=0,CN=61.0,zRes=-999,
                  EvapZsurf = 0.04, EvapZmin = 0.15, EvapZmax = 0.30,
                  Kex = 1.1, fevap = 4, fWrelExp = 0.4, fwcc = 50,
-                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1, F, S):
+                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1):
 
 
         self.Name=soilType
@@ -279,13 +279,13 @@ class SoilClass:
             self.add_layer(0.3, 0.24, 0.40, 0.50, 155, 100)
             self.add_layer(1.7, 0.11, 0.33, 0.46, 500, 100)
             
-        elif soilType == 'ClayLoamGuar2018':
-
+        elif soilType == 'DatabaseSoil':
             self.CN = F.CN
             self.CalcCN = F.CalcCN
             self.REW = F.REW
-            dz = F.dz
-            self.add_layer(P.Layer_Thickness, P.Wilting_Point, P.Field_Capacity, P.Saturation, P.Soil_Penetrability )
+            dz = [F.dz]*12
+            self.create_df(dz)
+            self.add_layer(sum(dz), S.Layer_Thickness, S.Wilting_Point, S.Field_Capacity, S.Saturation, S.Soil_Penetrability)
 
         elif soilType == 'ClayLoamGuarClovis2018': # Clovis data from 2018
             self.CN = 72 
@@ -569,7 +569,7 @@ class CropClass:
 
 
 
-    def __init__(self,c_name,P, PlantingDate,HarvestDate=None, **kwargs):
+    def __init__(self,c_name, P, PlantingDate,HarvestDate=None, **kwargs):
 
         self.Name = ''
 

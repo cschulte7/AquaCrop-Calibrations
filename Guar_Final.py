@@ -118,10 +118,10 @@ class plant_data:
 
 class field_data:
     def __init__(self, Field_data):
-        self.Field_Name = Field_data['Field Name']
-        self.Field_Number = Field_data['Field Number']
-        self.Soil_Type = Field_data['Soil Type']                             
-        self.CN = float(Field_data['CN'])                             
+        self.Field_Name = Field_data['Field_name']
+        self.Field_Number = Field_data['Field_number']
+        self.Soil_Type = Field_data['soilType']                             
+        self.CN = int(Field_data['CN'])                             
         self.CalcCN = int(Field_data['CalcCN'])                           
         self.REW = float(Field_data['REW'])                             
         self.dz = float(Field_data['dz'])                             
@@ -129,10 +129,10 @@ class field_data:
 
 class soil_data:
     def __init__(self, Soil_data):
-        self.Field_Name = Soil_data['Field Name']
-        self.Field_Number = Soil_data['Field Number']
-        self.Layer_Number = int(Soil_data['Layer Number'])                             
-        self.Layer_Thickness= float(Soil_data['Layer Thickness'])                             
+        self.Field_Name = Soil_data['FieldName']
+        self.Field_Number = Soil_data['Field_number']
+        self.Layer_Number = int(Soil_data['LayerNumber'])                             
+        self.Layer_Thickness= float(Soil_data['LayerThickness'])                             
         self.Wilting_Point = float(Soil_data['Wilting Point'])                           
         self.Field_Capacity = float(Soil_data['Field Capacity'])                             
         self.Saturation = float(Soil_data['Saturation'])                             
@@ -141,8 +141,8 @@ class soil_data:
      
     
 Guar_data_in = Guar_data.loc[(Guar_data['User']=='Pete') & (Guar_data['Crop Name']== 'Guar')]
-Field_data_in = Field_data.loc[(Field_data['User']=='Pete') & (Field_data['Soil Type']== 'Clay Loam') & (Field_data ['Field Name'] == 'Guar 1') & (Field_data ['Field Number'] == '1')]
-Soil_data_in = Soil_data.loc[(Soil_data['User']=='Pete') & (Soil_data['Field Name']== 'Clovis') & (Soil_data ['Field Name'] == 'Guar 1') & (Soil_data['Layer Number'] == '1')]
+Field_data_in = Field_data.loc[(Field_data['User']=='Pete') & (Field_data['Field_name'] == 'Guar1')]
+Soil_data_in = Soil_data.loc[(Soil_data['User']=='Pete') & (Soil_data['FieldName'] == 'Guar1') & (Soil_data['LayerNumber'] == 1)]
 P = plant_data(Guar_data_in)
 F = field_data(Field_data_in)
 S = soil_data(Soil_data_in)
@@ -155,7 +155,7 @@ with open('GuarWeather_Clovis_2018.txt', 'w') as f: weather.to_string(f, col_spa
 # Uses the function prepare weather to convert weather data
 wdf = prepare_weather('GuarWeather_Clovis_2018.txt') 
 # Grabs the soil class from the classes.py file
-soil = SoilClass('ClayLoamGuar2018', F, S) 
+soil = SoilClass('DatabaseSoil', F, S) 
 # Prepares the crop class with the name of the crop, planting date, and harvest date
 crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16')
 # Initialize water content to be field capacity 
@@ -185,7 +185,7 @@ plt1.set_xlabel("Days After Planting (DAP)")
 
 # Plotting biomass with no stress and stress conditions over time (days after planting) on the same graph
 plt2 = GrowthHead.plot(x ='DAP', y='B_NS', kind='line', color = "k", label = 'Without stress', title = 'Biomass over Time')
-GrowthHead.plot(x ='DAP', y='B', kind='line', color = "r", label='With stress', ax=plt3)
+GrowthHead.plot(x ='DAP', y='B', kind='line', color = "r", label='With stress', ax=plt2)
 #GrowthHead.plot(x ='DAP', y='B', color = "r", ax=plt3)
 plt2.set_ylabel("Biomass (kg/ha)")
 plt2.set_xlabel("Days After Planting (DAP)")
