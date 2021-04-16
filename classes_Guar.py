@@ -144,7 +144,7 @@ class SoilClass:
                  AdjREW= 1,REW= 9.0,CalcCN=0,CN=61.0,zRes=-999,
                  EvapZsurf = 0.04, EvapZmin = 0.15, EvapZmax = 0.30,
                  Kex = 1.1, fevap = 4, fWrelExp = 0.4, fwcc = 50,
-                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1,):
+                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1, F, S):
 
 
         self.Name=soilType
@@ -280,12 +280,12 @@ class SoilClass:
             self.add_layer(1.7, 0.11, 0.33, 0.46, 500, 100)
             
         elif soilType == 'ClayLoamGuar2018':
-            self.CN = 72 # Lower value - higher yield because more rainwater goes into the soil with a lower number
-            self.CalcCN = 0
-            self.REW = 5
-            dz = [0.1]*12
-            self.create_df(dz)
-            self.add_layer(sum(dz), 0.19, 0.31, 0.33, 111.25, 100)  #Estimations based on the clay loam given in the program
+
+            self.CN = F.CN
+            self.CalcCN = F.CalcCN
+            self.REW = F.REW
+            dz = F.dz
+            self.add_layer(P.Layer_Thickness, P.Wilting_Point, P.Field_Capacity, P.Saturation, P.Soil_Penetrability )
 
         elif soilType == 'ClayLoamGuarClovis2018': # Clovis data from 2018
             self.CN = 72 

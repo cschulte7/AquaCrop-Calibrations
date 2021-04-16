@@ -11,7 +11,8 @@ _=[sys.path.append(i) for i in ['.', '..']] # finds 'AquaCrop' file
 
 import matplotlib.pyplot as plt
 import matplotlib
-import seaborn as sns # Visualization tool used for high-level interface for drawing attractive and informative stastical graphics
+# Visualization tool used for high-level interface for drawing attractive and informative stastical graphics
+import seaborn as sns 
 import numpy as np
 import pandas as pd
 from aquacrop.core import *
@@ -27,6 +28,8 @@ pathprefix='/home/ecoslacker/Documents/WINDS_Data/'
 
 db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevzppe.us-west-1.rds.amazonaws.com:3306/winds_test')
 Guar_data = pd.read_sql('SELECT * from Aquacrop_crop_table',con=db)  #Reads all data from mysql db
+Field_data = pd.read_sql('SELECT * from Aquacrop_field_table',con=db)  #Reads all data from mysql db
+Soil_data = pd.read_sql('SELECT * from Aquacrop_soil_layers',con=db)  #Reads all data from mysql db
 
 #test
 class plant_data:
@@ -112,9 +115,37 @@ class plant_data:
         self.HIini = float(Guar_data['HIini']); # Initial harvest index
         self.bsted = float(Guar_data['bsted']); # WP co2 adjustment parameter given by Steduto et al. 2007
         self.bface = float(Guar_data['bface']); # WP co2 adjustment parameter given by FACE experiments
-            
+
+class field_data:
+    def __init__(self, Field_data):
+        self.Field_Name = Field_data['Field Name']
+        self.Field_Number = Field_data['Field Number']
+        self.Soil_Type = Field_data['Soil Type']                             
+        self.CN = float(Field_data['CN'])                             
+        self.CalcCN = int(Field_data['CalcCN'])                           
+        self.REW = float(Field_data['REW'])                             
+        self.dz = float(Field_data['dz'])                             
+        self.Number_of_Layers = int(Field_data['Number of Layers'])                             
+
+class soil_data:
+    def __init__(self, Soil_data):
+        self.Field_Name = Soil_data['Field Name']
+        self.Field_Number = Soil_data['Field Number']
+        self.Layer_Number = int(Soil_data['Layer Number'])                             
+        self.Layer_Thickness= float(Soil_data['Layer Thickness'])                             
+        self.Wilting_Point = float(Soil_data['Wilting Point'])                           
+        self.Field_Capacity = float(Soil_data['Field Capacity'])                             
+        self.Saturation = float(Soil_data['Saturation'])                             
+        self.Hydraulic_Conductivity = float(Soil_data['Hydraulic Conductivity'])                             
+        self.Soil_Penetrability = float(Soil_data['Soil Penetrability'])                             
+     
+    
 Guar_data_in = Guar_data.loc[(Guar_data['User']=='Pete') & (Guar_data['Crop Name']== 'Guar')]
+Field_data_in = Field_data.loc[(Field_data['User']=='Pete') & (Field_data['Soil Type']== 'Clay Loam') & (Field_data ['Field Name'] == 'Guar 1') & (Field_data ['Field Number'] == '1')]
+Soil_data_in = Soil_data.loc[(Soil_data['User']=='Pete') & (Soil_data['Field Name']== 'Clovis') & (Soil_data ['Field Name'] == 'Guar 1') & (Soil_data['Layer Number'] == '1')]
 P = plant_data(Guar_data_in)
+F = field_data(Field_data_in)
+S = soil_data(Soil_data_in)
 
 print('Crop type', P.Crop_type)
 # Reads in the weather data
@@ -124,7 +155,7 @@ with open('GuarWeather_Clovis_2018.txt', 'w') as f: weather.to_string(f, col_spa
 # Uses the function prepare weather to convert weather data
 wdf = prepare_weather('GuarWeather_Clovis_2018.txt') 
 # Grabs the soil class from the classes.py file
-soil = SoilClass('ClayLoamGuar2018') 
+soil = SoilClass('ClayLoamGuar2018', F, S) 
 # Prepares the crop class with the name of the crop, planting date, and harvest date
 crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16')
 # Initialize water content to be field capacity 
@@ -147,19 +178,17 @@ FinalHead = model.Outputs.Final.head(None)
 
 
 # Plotting canopy coverage over time (days after planting)
-plt1 = GrowthHead.plot(x ='DAP', y='CC', kind='scatter', title = 'Canopy Coverage over Time')
+plt1 = GrowthHead.plot(x ='DAP', y='CC', kind='line', label = 'With stress', title = 'Canopy Coverage over Time')
+GrowthHead.plot(x ='DAP', y='CC_NS', kind='line', color = 'y', label = 'Without stress', ax=plt1)
 plt1.set_ylabel("Canopy Coverage")
 plt1.set_xlabel("Days After Planting (DAP)")
 
-# Plotting biomass over time (days after planting)
-plt2 = GrowthHead.plot(x ='DAP', y='B', kind='scatter', title = 'Biomass with Stress over Time')
+# Plotting biomass with no stress and stress conditions over time (days after planting) on the same graph
+plt2 = GrowthHead.plot(x ='DAP', y='B_NS', kind='line', color = "k", label = 'Without stress', title = 'Biomass over Time')
+GrowthHead.plot(x ='DAP', y='B', kind='line', color = "r", label='With stress', ax=plt3)
+#GrowthHead.plot(x ='DAP', y='B', color = "r", ax=plt3)
 plt2.set_ylabel("Biomass (kg/ha)")
 plt2.set_xlabel("Days After Planting (DAP)")
-
-# Plotting biomass with no stress conditions over time (days after planting)
-plt3 = GrowthHead.plot(x ='DAP', y='B_NS', kind='scatter', title = 'Biomass without Stress over Time')
-plt3.set_ylabel("Biomass (kg/ha)")
-plt3.set_xlabel("Days After Planting (DAP)")
 
 # The following are print statements to see different outputs
 # Final summary (season total)
