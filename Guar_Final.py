@@ -157,11 +157,11 @@ wdf = prepare_weather('GuarWeather_Clovis_2018.txt')
 # Grabs the soil class from the classes.py file
 soil = SoilClass('DatabaseSoil', F, S) 
 # Prepares the crop class with the name of the crop, planting date, and harvest date
-crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16')
+crop = CropClass('GuarGDD', P, PlantingDate='07/03',HarvestDate='11/16')
 # Initialize water content to be field capacity 
 InitWC = InitWCClass(value=['FC']) 
 # The model is run using SimStartTime, SimEndTime, weather data, soil, crop, initial water content
-model = AquaCropModel('2018/06/15','2018/11/16', wdf,soil,crop, InitWC) 
+model = AquaCropModel('2018/07/03','2018/11/16', wdf,soil,crop, InitWC) 
 model.initialize() 
 model.step(till_termination=True)
 
@@ -187,6 +187,7 @@ print('\n Soil Water Content = \n', WaterHead)
 # Crop growth
 print('\n Crop Growth = \n', GrowthHead) 
 
+GrowthHead = GrowthHead[(GrowthHead.T != 0).any()]
 # Plotting canopy coverage over time (days after planting)
 GrowthHead = GrowthHead[(GrowthHead.T != 0).any()]
 plt1 = GrowthHead.plot(x ='DAP', y='CC', kind='line', label = 'With stress', title = 'Canopy Coverage over Time')

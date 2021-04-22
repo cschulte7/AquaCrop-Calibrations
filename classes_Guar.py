@@ -140,11 +140,11 @@ class SoilClass:
     `Comp` : `pandas.DataFrame` : holds soil compartment information
     A number of float attributes specified in the initialisation of the class
         '''
-    def __init__(self,soilType, F, S, dz=[0.1]*12,
+    def __init__(self,soilType,dz=[0.1]*12,
                  AdjREW= 1,REW= 9.0,CalcCN=0,CN=61.0,zRes=-999,
                  EvapZsurf = 0.04, EvapZmin = 0.15, EvapZmax = 0.30,
                  Kex = 1.1, fevap = 4, fWrelExp = 0.4, fwcc = 50,
-                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1):
+                 zCN = 0.3, zGerm = 0.3,AdjCN=1, fshape_cr = 16, zTop = 0.1,):
 
 
         self.Name=soilType
@@ -279,13 +279,13 @@ class SoilClass:
             self.add_layer(0.3, 0.24, 0.40, 0.50, 155, 100)
             self.add_layer(1.7, 0.11, 0.33, 0.46, 500, 100)
             
-        elif soilType == 'DatabaseSoil':
-            self.CN = F.CN
-            self.CalcCN = F.CalcCN
-            self.REW = F.REW
-            dz = [F.dz]*12
+        elif soilType == 'ClayLoamGuar2018':
+            self.CN = 72 # Lower value - higher yield because more rainwater goes into the soil with a lower number
+            self.CalcCN = 0
+            self.REW = 5
+            dz = [0.1]*12
             self.create_df(dz)
-            self.add_layer(sum(dz), S.Layer_Thickness, S.Wilting_Point, S.Field_Capacity, S.Saturation, S.Soil_Penetrability)
+            self.add_layer(sum(dz), 0.19, 0.31, 0.33, 111.25, 100)  #Estimations based on the clay loam given in the program
 
         elif soilType == 'ClayLoamGuarClovis2018': # Clovis data from 2018
             self.CN = 72 
@@ -569,7 +569,7 @@ class CropClass:
 
 
 
-    def __init__(self,c_name, P, PlantingDate,HarvestDate=None, **kwargs):
+    def __init__(self,c_name,PlantingDate,HarvestDate=None,**kwargs):
 
         self.Name = ''
 
@@ -593,98 +593,46 @@ class CropClass:
         if c_name == 'GuarGDD': 
 
             self.Name = 'GuarGDD'
-            self.CropType= P.Crop_type; 
-            self.PlantMethod= P.Plant_method; 
-            self.CalendarType= P.Calendar_type
-            self.SwitchGDD= P.SwitchGDD;
+            self.CropType= 3; self.PlantMethod= 1; self.CalendarType= 2
+            self.SwitchGDD= 0;
             self.PlantingDate= PlantingDate # Planting Date (mm/dd)
             self.HarvestDate= HarvestDate # Latest Harvest Date (mm/dd)
 
-            self.Emergence = P.Emergence; 
-            self.MaxRooting = P.MaxRooting; 
-            self.Senescence = P.Senescence;  
-            self.Maturity = P.Maturity;
-            self.HIstart = P.HIstart; 
-            self.Flowering = P.Flowering; 
-            self.YldForm = P.YldForm; 
-            self.GDDmethod = P.GDDmethod; 
-            self.Tbase = P.Tbase; 
-            self.Tupp = P.Tupp; 
-            self.PolHeatStress = P.PolHeatStress; 
-            self.Tmax_up = P.Tmax_up; 
-            self.Tmax_lo = P.Tmax_lo; 
-            self.PolColdStress = P.PolColdStress; 
-            self.Tmin_up = P.Tmin_up; 
-            self.Tmin_lo = P.Tmin_lo; 
-            self.TrColdStress = P.TrColdStress;
+            self.Emergence = 78.93; self.MaxRooting = 644.40; self.Senescence = 798.27;  self.Maturity = 814.05;
+            self.HIstart = 330.355; self.Flowering = 540; self.YldForm = 539.9; self.GDDmethod = 1; 
+            self.Tbase = 14.2; self.Tupp = 48.2; self.PolHeatStress = 0; self.Tmax_up = 37; self.Tmax_lo = 50; 
+            self.PolColdStress = 0; self.Tmin_up = 15; self.Tmin_lo = 5; self.TrColdStress = 1;
         
-            self.GDD_up = P.GDD_up;
-            self.GDD_lo = P.GDD_lo; 
-            self.Zmin = P.Zmin; 
-            self.Zmax = P.Zmax;
-            self.fshape_r = P.fshape_r; 
-            self.SxTopQ = P.SxTopQ; 
-            self.SxBotQ = P.SxBotQ;
-            self.SeedSize = P.SeedSize; 
-            self.PlantPop = P.PlantPop # Hadiqa
+            self.GDD_up = 12;
+            self.GDD_lo = 0; self.Zmin = 0.3; self.Zmax = 0.8;
+            self.fshape_r = 1.5; 
+            self.SxTopQ = 0.0480; 
+            self.SxBotQ = 0.016;
             
-            self.CCx = P.CCx;
-            self.CDC = P.CDC; 
-            self.CGC = P.CGC; 
-            self.Kcb = P.Kcb;
-            self.fage = P.fage; 
-            self.WP = P.WP; 
-            self.WPy = P.WPy;
-            self.fsink = P.fsink;
+            self.SeedSize = 4.32; self.PlantPop = 123_000 # Hadiqa
             
-            self.HI0 = P.HI0; 
+            self.CCx = 0.95;
+            self.CDC = 0.09; 
+            self.CGC = 0.15; 
+            self.Kcb = 1.13;
+            self.fage = 0.1; 
+            self.WP = 15; 
+            self.WPy = 100;
+            self.fsink = 0.3;
             
-            self.dHI_pre = P.dHI_pre;
-            self.a_HI = P.a_HI; 
-            self.b_HI = P.b_HI; 
-            self.dHI0 = P.dHI0;
+            self.HI0 = 0.29; 
             
-            self.Determinant = P.Determinant; 
-            self.exc = P.exc; 
-            self.p_up1 = P.p_up1; 
-            self.p_up2 = P.p_up2; 
-            self.p_up3 = P.p_up3; 
-            self.p_up4 = P.p_up4;
-            self.p_lo1 = P.p_lo1; 
-            self.p_lo2 = P.p_lo2; 
-            self.p_lo3 = P.p_lo3; 
-            self.p_lo4 = P.p_lo4; 
+            self.dHI_pre = 2.4;
+            self.a_HI = 4; self.b_HI = 10; 
+            self.dHI0 = 2;
+            
+            self.Determinant = 0; self.exc = 0; self.p_up1 = 0.35; self.p_up2 = 0.75; self.p_up3 = 0.8; self.p_up4 = 0.95;
+            self.p_lo1 = 0.7; self.p_lo2 = 1; self.p_lo3 = 1; self.p_lo4 = 1; 
 
-            self.fshape_w1 = P.fshape_w1;
-            self.fshape_w2 = P.fshape_w2;
-            self.fshape_w3 = P.fshape_w3;
-            self.fshape_w4 = P.fshape_w4;
-            
-            self.CC0 = P.CC0;
-
-            self.HIGC = P.HIGC;
-            self.tLinSwitch = P.tLinSwitch;
-            self.dHILinear = P.dHILinear;
-    
-            self.fCO2 = P.fCO2;
-    
-            self.FloweringCD = P.FloweringCD;
-            self.FloweringEnd = P.FloweringEnd;
-            
-            self.fshape_b = P.fshape_b; # Shape factor describing the reduction in biomass production for insufficient growing degree days
-            self.PctZmin = P.PctZmin; # Initial percentage of minimum effective rooting depth
-            self.fshape_ex = P.fshape_ex; # Shape factor describing the effects of water stress on root expansion
-            self.ETadj = P.ETadj; # Adjustment to water stress thresholds depending on daily ET0 (0 = No, 1 = Yes)
-            self.Aer = P.Aer; # Vol (%) below saturation at which stress begins to occur due to deficient aeration
-            self.LagAer = P.LagAer; # Number of days lag before aeration stress affects crop growth
-            self.beta = P.beta; # Reduction (%) to p_lo3 when early canopy senescence is triggered
-            self.a_Tr = P.a_Tr; # Exponent parameter for adjustment of Kcx once senescence is triggered
-            self.GermThr = P.GermThr; # Proportion of total water storage needed for crop to germinate
-            self.CCmin = P.CCmin; # Minimum canopy size below which yield formation cannot occur
-            #self.MaxFlowPct = P.MaxFlowPct; # Proportion of total flowering time (%) at which peak flowering occurs
-            self.HIini = P.HIini; # Initial harvest index
-            self.bsted = P.bsted; # WP co2 adjustment parameter given by Steduto et al. 2007
-            self.bface = P.bface; # WP co2 adjustment parameter given by FACE experiments
+            self.fshape_w1 = 2.9;
+            self.fshape_w2 = 6;
+            self.fshape_w3 = 2.7;
+            self.fshape_w4 = 1;
             
         elif c_name == 'Maize':
 
